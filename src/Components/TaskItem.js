@@ -1,15 +1,14 @@
 import React from 'react';
 
-export default function TaskItem() {
+export default function TaskItem({ task, onEdit, onDelete }) {
     return (
-    <div class="task-item">
-        <h3>Task Title</h3>
-        <p>Description of the task</p>
-        <p>Category: Misc</p>
-        <p>Priority: High</p>
-        <button>Edit</button>
-        <button>Delete</button>
-    </div>
+        <div className="task-item">
+            <h3>{task.title}</h3>
+            <p>{task.description}</p>
+            <p>Category: {task.category}</p>
+            <p>Priority: {task.priority}</p>
+            <button onClick={() => onEdit(task.id)}>Edit</button>
+            <button onClick={() => onDelete(task.id)}>Delete</button>
+        </div>
     );
 }
-
