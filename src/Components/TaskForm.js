@@ -1,41 +1,46 @@
 import React, { useState } from 'react';
-import {useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 export default function TaskForm() {
     const navigate = useNavigate();
-    
-    const [task, setTask] = useState({
-        title: "",
-        description: "",
-        category: "",
-        priority: ""
-    });
 
-    const handleChange = (e) => {
-        // Code here for updating the TaskList
-    };
+    const  { taskId } = useParams();
+    var pageTitle = taskId ? "Edit A Task" : "Add A Task";
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Updated Task:", task);
+
+        const submittedTask = {
+            id: Math.floor(Math.random() * 100),
+            title: e.target.title.value,
+            description: e.target.description.value,
+            category: e.target.category.value,
+            priority: e.target.priority.value,
+        }
+
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        tasks.push(submittedTask);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+
         navigate('/'); 
     };
 
     return (
         <div>
-            <h2>Add/Edit Task</h2>
+            <h2>{pageTitle}</h2>
             <form onSubmit={handleSubmit}>
                 <label>Title:</label>
-                <input type="text" name="title" value={task.title} onChange={handleChange} required />
+                <input type="text" name="title" placeholder="Enter Task Title" required />
 
                 <label>Description:</label>
-                <textarea name="description" value={task.description} onChange={handleChange} required />
+                <textarea name="description" placeholder="Enter Task Description" required />
 
                 <label>Category:</label>
-                <input type="text" name="category" value={task.category} onChange={handleChange} required />
+                <input type="text" name="category" placeholder="Enter Task Category" required />
 
                 <label>Priority:</label>
-                <select name="priority" value={task.priority} onChange={handleChange}>
+                <select name="priority">
                     <option>High</option>
                     <option>Medium</option>
                     <option>Low</option>
