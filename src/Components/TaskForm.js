@@ -11,15 +11,23 @@ export default function TaskForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+        let id = 1;
+
+        if (tasks) {
+            const index = tasks.length - 1; // Last Object in array
+            id = tasks[index].id + 1;
+        }
+
         const submittedTask = {
-            id: Math.floor(Math.random() * 100),
+            id: id,
             title: e.target.title.value,
             description: e.target.description.value,
             category: e.target.category.value,
             priority: e.target.priority.value,
         }
 
-        const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
         tasks.push(submittedTask);
         localStorage.setItem("tasks", JSON.stringify(tasks));
 
