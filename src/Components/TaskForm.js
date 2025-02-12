@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 
 export default function TaskForm() {
     const navigate = useNavigate();
 
     const  { taskId } = useParams();
-    var pageTitle = taskId ? "Edit A Task" : "Add A Task";
+    const pageTitle = taskId ? "Edit A Task" : "Add A Task";
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const newTaskIdx = parseInt(localStorage.getItem("currentTaskIdIndex")) + 1;
 
-        let id = 1;
-
-        if (tasks) {
-            const index = tasks.length - 1; // Last Object in array
-            id = tasks[index].id + 1;
-        }
-
-        const submittedTask = {
-            id: id,
+        const submittedTask = { // Create new task object from submitted values
+            id: newTaskIdx,
             title: e.target.title.value,
             description: e.target.description.value,
             category: e.target.category.value,
             priority: e.target.priority.value,
         }
 
-        tasks.push(submittedTask);
+        tasks.push(submittedTask); // add submitted task to localStorage 'tasks'
+
+        // Update localStorage values
         localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem("currentTaskIdIndex", newTaskIdx.toString());
 
         navigate('/'); 
     };

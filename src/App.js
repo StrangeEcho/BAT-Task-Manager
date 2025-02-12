@@ -4,7 +4,7 @@ import TaskList from './Components/TaskList';
 import TaskForm from './Components/TaskForm';
 import PageHeader from './Components/PageHeader';
 
-import {InitializeStorage} from "./Utilities/StorageManagement";
+import {InitializeStorage} from "./Utilities/StorageHelpers";
 
 function App() {
 
