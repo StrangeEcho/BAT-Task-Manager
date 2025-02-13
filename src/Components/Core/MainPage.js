@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TaskItem from './TaskItem';
-import Stats from "./Stats";
+import TaskItem from '../TaskItem';
+import Stats from "../Stats";
 
-export default function TaskList() {
+export default function MainPage() {
 
     const navigate = useNavigate(); // function alias
 

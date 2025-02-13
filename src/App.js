@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import TaskList from './Components/TaskList';
-import TaskForm from './Components/TaskForm';
-import PageHeader from './Components/PageHeader';
+import MainPage from './Components/Core/MainPage';
+import TaskForm from './Components/Core/TaskForm';
+
 
 import {InitializeStorage} from "./Utilities/StorageHelpers";
 
@@ -15,7 +15,7 @@ function App() {
     return (
       <Router>
         <Routes>
-            <Route path="/" element={<><PageHeader/><TaskList/></>} />
+            <Route path="/" element={<><MainPage/></>} />
             <Route path="/edit/:taskId" element={<TaskForm />} />
             <Route path="/add" element={<TaskForm />} />
         </Routes>
