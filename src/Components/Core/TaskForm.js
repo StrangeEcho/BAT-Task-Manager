@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import '../Styles/TaskForm.css';
 
 export default function TaskForm() {
     const navigate = useNavigate();
-    const { taskId } = useParams(); // if not null, forum is in edit mode
+    const { taskId } = useParams();
     const pageTitle = taskId ? "Edit A Task" : "Add A Task";
 
-    const [task, setTask] = useState({ // empty for new tasks, will be populated if forum is in edit mode
+    const [task, setTask] = useState({
         id: null,
         title: '',
         description: '',
@@ -14,7 +15,7 @@ export default function TaskForm() {
         priority: 'Medium',
     });
 
-    useEffect(() => { // called only when taskId is changed
+    useEffect(() => {
         if (taskId) {
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
             const existingTask = tasks.find(t => t.id === parseInt(taskId));
@@ -26,14 +27,11 @@ export default function TaskForm() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
         if (taskId) {
-            // Editing an existing task
             tasks = tasks.map(t => t.id === parseInt(taskId) ? { ...task } : t);
         } else {
-            // Adding a new task
             const newTaskIdx = parseInt(localStorage.getItem("currentTaskIdIndex") || "0") + 1;
             const newTask = { ...task, id: newTaskIdx };
             tasks.push(newTask);
@@ -49,17 +47,17 @@ export default function TaskForm() {
     };
 
     return (
-        <div>
+        <div className="task-form-container">
             <h2>{pageTitle}</h2>
             <form onSubmit={handleSubmit}>
                 <label>Title:</label>
-                <input type="text" name="title" value={task.title} onChange={handleChange} placeholder="Enter Task Title" required />
+                <input type="text" name="title" value={task.title} onChange={handleChange} required />
 
                 <label>Description:</label>
-                <textarea name="description" value={task.description} onChange={handleChange} placeholder="Enter Task Description" required />
+                <textarea name="description" value={task.description} onChange={handleChange} required />
 
                 <label>Category:</label>
-                <input type="text" name="category" value={task.category} onChange={handleChange} placeholder="Enter Task Category" required />
+                <input type="text" name="category" value={task.category} onChange={handleChange} required />
 
                 <label>Priority:</label>
                 <select name="priority" value={task.priority} onChange={handleChange}>
@@ -68,8 +66,10 @@ export default function TaskForm() {
                     <option>Low</option>
                 </select>
 
-                <button type="submit">Save</button>
-                <button type="button" onClick={() => navigate('/')}>Cancel</button>
+                <div className="form-actions">
+                    <button className="submit-btn" type="submit">Save</button>
+                    <button type="button" className="cancel-btn" onClick={() => navigate('/')}>Cancel</button>
+                </div>
             </form>
         </div>
     );

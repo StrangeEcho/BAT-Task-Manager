@@ -1,10 +1,10 @@
 import React from 'react';
+import '../Styles/PageHeader.css'
 
 export default function PageHeader() {
     return (
-        <div className="Title">
+        <header className="page-header">
             <h1>Welcome to BAT Task Planner</h1>
-        </div>
-
+        </header>
     );
 }
