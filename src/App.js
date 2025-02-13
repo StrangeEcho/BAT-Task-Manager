@@ -1,16 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MainPage from './Components/Core/MainPage';
 import TaskForm from './Components/Core/TaskForm';
 
 
-import {InitializeStorage} from "./Utilities/StorageHelpers";
+import { InitializeStorage } from "./Utilities/StorageHelpers";
 
 function App() {
 
-    useEffect(() => {
-        InitializeStorage();
-    });
+    InitializeStorage();
 
     return (
       <Router>
