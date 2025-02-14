@@ -18,7 +18,7 @@ export default function MainPage() {
     };
 
     const handleDelete = (taskId) => {
-        const newTasks = tasks.filter(task => task.id !== taskId);
+        const newTasks = tasks.filter(task => task.id !== taskId); // filter tasks by what doesn't equal the deleted task's id
         setTasks(newTasks);
         localStorage.setItem("tasks", JSON.stringify(newTasks));
     };
@@ -26,11 +26,11 @@ export default function MainPage() {
     const handleComplete = (taskId) => {
         handleDelete(taskId);
         let compTasks = parseInt(localStorage.getItem("completedTasks")) || 0;
-        localStorage.setItem("completedTasks", (compTasks + 1).toString());
+        localStorage.setItem("completedTasks", (compTasks + 1).toString()); // increment completed tasks
     };
 
 
-    const filteredTasks = Priority === "All"
+    const filteredTasks = Priority === "All" // new task array dynamically set by filter option
         ? tasks
         : tasks.filter(task => task.priority === Priority);
 

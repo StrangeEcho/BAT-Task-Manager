@@ -10,7 +10,7 @@ export default function Stats() {
         labels: ['Completed Tasks', 'Uncompleted Tasks'],
         datasets: [
             {
-                data: [parseInt(localStorage.getItem("completedTasks")), JSON.parse(localStorage.getItem("tasks")).length],
+                data: [parseInt(localStorage.getItem("completedTasks")), JSON.parse(localStorage.getItem("tasks")).length], // completed task to uncompleted task
                 backgroundColor: ['#4CAF50', '#ff4d4d'],
             }
         ]

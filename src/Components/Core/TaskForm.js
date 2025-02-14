@@ -5,7 +5,7 @@ import '../Styles/TaskForm.css';
 export default function TaskForm() {
     const navigate = useNavigate();
     const { taskId } = useParams();
-    const pageTitle = taskId ? "Edit A Task" : "Add A Task";
+    const pageTitle = taskId ? "Edit A Task" : "Add A Task"; // dynamically set page title
 
     const [task, setTask] = useState({
         id: null,
@@ -13,12 +13,12 @@ export default function TaskForm() {
         description: '',
         category: '',
         priority: 'Medium',
-    });
+    }); // empty task for adding. will populate if form is in edit mode
 
     useEffect(() => {
         if (taskId) {
             const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-            const existingTask = tasks.find(t => t.id === parseInt(taskId));
+            const existingTask = tasks.find(t => t.id === parseInt(taskId)); // fetch task from localStorage by id
             if (existingTask) {
                 setTask(existingTask);
             }
@@ -29,21 +29,21 @@ export default function TaskForm() {
         e.preventDefault();
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-        if (taskId) {
+        if (taskId) { // edit mode
             tasks = tasks.map(t => t.id === parseInt(taskId) ? { ...task } : t);
-        } else {
+        } else { // add mode
             const newTaskIdx = parseInt(localStorage.getItem("currentTaskIdIndex") || "0") + 1;
             const newTask = { ...task, id: newTaskIdx };
             tasks.push(newTask);
             localStorage.setItem("currentTaskIdIndex", newTaskIdx.toString());
         }
 
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem("tasks", JSON.stringify(tasks)); // saves new task to localStorage
         navigate('/');
     };
 
     const handleChange = (e) => {
-        setTask({ ...task, [e.target.name]: e.target.value });
+        setTask({ ...task, [e.target.name]: e.target.value }); // change whatever field is being edited
     };
 
     return (

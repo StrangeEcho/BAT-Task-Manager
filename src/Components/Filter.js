@@ -3,7 +3,7 @@ import './Styles/Filter.css'; // Optional styling
 export default function Filter({ Priority, setFilterPriority }) {
 
     const handleFilterChange = (e) => {
-        setFilterPriority(e.target.value);
+        setFilterPriority(e.target.value); // sets new filter state
         localStorage.setItem("filterPriority", e.target.value);
     };
 
