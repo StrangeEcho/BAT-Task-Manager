@@ -3,16 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import TaskItem from '../TaskItem';
 import Stats from "../Stats";
 import PageHeader from "../MetaUI/PageHeader";
+import Filter from "../Filter";  // Import the new Filter component
 import '../Styles/MainPage.css';
 
 export default function MainPage() {
+    const navigate = useNavigate();
 
-    const navigate = useNavigate(); // function alias
+    const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []);
 
-    const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem("tasks")) || []); // Initialize tasks w/ localStorage or empty array
+    const [Priority, setPriority] = useState(localStorage.getItem("filterPriority") || "All");
 
     const handleEdit = (taskId) => {
-        navigate(`/edit/${taskId}`); // Send to task edit page
+        navigate(`/edit/${taskId}`);
     };
 
     const handleDelete = (taskId) => {
@@ -23,21 +25,27 @@ export default function MainPage() {
 
     const handleComplete = (taskId) => {
         handleDelete(taskId);
-
         let compTasks = parseInt(localStorage.getItem("completedTasks")) || 0;
-        compTasks += 1;
-        localStorage.setItem("completedTasks", compTasks.toString());
+        localStorage.setItem("completedTasks", (compTasks + 1).toString());
     };
+
+
+    const filteredTasks = Priority === "All"
+        ? tasks
+        : tasks.filter(task => task.priority === Priority);
 
     return (
         <div className="main-page">
             <PageHeader />
             <Stats />
             <button id="addTaskBtn" onClick={() => navigate('/add')}>Add Task</button>
+
+
             <h2>Task List:</h2>
+            <Filter filterPriority={Priority} setFilterPriority={setPriority} />
             <div className="task-list-container">
                 <ul id="taskList">
-                    {tasks.map(task => (
+                    {filteredTasks.map(task => (
                         <li key={task.id}>
                             <TaskItem task={task} onEdit={handleEdit} onDelete={handleDelete} onComplete={handleComplete} />
                         </li>
