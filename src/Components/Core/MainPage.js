@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import TaskItem from '../TaskItem';
 import Stats from "../Stats";
 import PageHeader from "../MetaUI/PageHeader";
@@ -8,43 +8,42 @@ import Search from "../Search"; // Import Search component
 import '../Styles/MainPage.css';
 
 export default function MainPage() {
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // function alias
 
+    // Declare States
     const [tasks, setTasks] = useState(() => {
-        const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
-        return storedTasks;
+        return JSON.parse(localStorage.getItem("tasks")) || []; // get tasks from localStorage or an empty array
     });
-
-    const [Priority, setPriority] = useState(localStorage.getItem("filterPriority") || "All");
+    const [priority, setPriority] = useState(localStorage.getItem("filterPriority") || "All");
     const [filteredTasks, setFilteredTasks] = useState(tasks);
 
     useEffect(() => {
         setFilteredTasks(tasks);
     }, [tasks]);
 
+    // Apply filtering by priority
+    useEffect(() => {
+        const newFilteredTasks = priority === "All"
+            ? tasks
+            : tasks.filter(task => task.priority === priority); // dynamically set filtered tasks by priority filter
+        setFilteredTasks(newFilteredTasks);
+    }, [priority, tasks]);
+
     const handleEdit = (taskId) => {
-        navigate(`/edit/${taskId}`);
+        navigate(`/edit/${taskId}`); // send to edit route
     };
 
     const handleDelete = (taskId) => {
-        const newTasks = tasks.filter(task => task.id !== taskId);
+        const newTasks = tasks.filter(task => task.id !== taskId); // remove task by id from array
         setTasks(newTasks);
-        localStorage.setItem("tasks", JSON.stringify(newTasks));
+        localStorage.setItem("tasks", JSON.stringify(newTasks)); // resave to localStorage
     };
 
     const handleComplete = (taskId) => {
-        handleDelete(taskId);
+        handleDelete(taskId); // delete task
         let compTasks = parseInt(localStorage.getItem("completedTasks")) || 0;
-        localStorage.setItem("completedTasks", (compTasks + 1).toString());
+        localStorage.setItem("completedTasks", (compTasks + 1).toString()); // increment completed tasks
     };
-
-    // Apply filtering by priority
-    useEffect(() => {
-        const newFilteredTasks = Priority === "All" 
-            ? tasks 
-            : tasks.filter(task => task.priority === Priority);
-        setFilteredTasks(newFilteredTasks);
-    }, [Priority, tasks]);
 
     return (
         <div className="main-page">
@@ -54,7 +53,7 @@ export default function MainPage() {
 
             <h2>Task List:</h2>
             <Search tasks={tasks} setFilteredTasks={setFilteredTasks} /> {/* Search Component */}
-            <Filter filterPriority={Priority} setFilterPriority={setPriority} />
+            <Filter filterPriority={priority} setFilterPriority={setPriority} />
 
             <div className="task-list-container">
                 <ul id="taskList">

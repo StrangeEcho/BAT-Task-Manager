@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import "./Styles/Search.css"; // Optional styling
+import "./Styles/Search.css";
 
 export default function Search({ tasks, setFilteredTasks }) {
   const [query, setQuery] = useState("");
@@ -20,6 +20,7 @@ export default function Search({ tasks, setFilteredTasks }) {
   return (
     <div className="search-container">
       <input
+        className="search-input"
         type="text"
         placeholder="Search tasks..."
         value={query}
