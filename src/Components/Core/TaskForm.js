@@ -25,6 +25,10 @@ export default function TaskForm() {
         }
     }, [taskId]);
 
+    useEffect(() => {
+        document.title = pageTitle;
+    }, [pageTitle])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -48,7 +52,9 @@ export default function TaskForm() {
 
     return (
         <div className="task-form-container">
-            <h2>{pageTitle}</h2>
+            <header className="form-header">
+                <h2>{pageTitle}</h2>
+            </header>
             <form onSubmit={handleSubmit}>
                 <label>Title:</label>
                 <input type="text" name="title" value={task.title} onChange={handleChange} required />

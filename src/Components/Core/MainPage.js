@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import TaskItem from '../TaskItem';
 import Stats from "../Stats";
-import PageHeader from "../MetaUI/PageHeader";
 import Filter from "../Filter";
 import Search from "../Search"; // Import Search component
 import '../Styles/MainPage.css';
@@ -16,6 +15,10 @@ export default function MainPage() {
     });
     const [priority, setPriority] = useState(localStorage.getItem("filterPriority") || "All");
     const [filteredTasks, setFilteredTasks] = useState(tasks);
+
+    useEffect(() => {
+        document.title = "Home Page";
+    })
 
     useEffect(() => {
         setFilteredTasks(tasks);
@@ -47,7 +50,9 @@ export default function MainPage() {
 
     return (
         <div className="main-page">
-            <PageHeader />
+            <header className = "page-header">
+                <h1>Welcome to BAT Task Management</h1>
+            </header>
             <Stats />
             <button id="addTaskBtn" onClick={() => navigate('/add')}>Add Task</button>
 
